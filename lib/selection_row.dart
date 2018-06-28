@@ -12,9 +12,14 @@ class SelectionRow extends StatelessWidget {
   List<Widget> _buildSquares() {
     List<Square> squares = [];
     for (int i = 0; i < 9; i++) {
-      Square square = Square(i, i + 1, i + 1 == selectedNumber, (index) {
-        onSquareTapped(index);
-      });
+      Square square = Square(
+          index: i,
+          number: i + 1,
+          isSelected: i + 1 == selectedNumber,
+          isBold: false,
+          onSquareTapped: (index) {
+            onSquareTapped(index);
+          });
       squares.add(square);
     }
     return squares;

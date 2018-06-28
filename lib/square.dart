@@ -6,9 +6,15 @@ class Square extends StatelessWidget {
   final int index; // 0 to 80 for the grid, 0 to 8 for the selection row
   final int number;
   final bool isSelected;
-  final SquareTappedCallback _onSquareTapped;
+  final bool isBold;
+  final SquareTappedCallback onSquareTapped;
 
-  Square(this.index, this.number, this.isSelected, this._onSquareTapped);
+  Square(
+      {this.index,
+      this.number,
+      this.isSelected,
+      this.isBold,
+      this.onSquareTapped});
 
   _getX() {
     return (index % 9).toInt();
@@ -34,13 +40,15 @@ class Square extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            number > 0 ? "${number}" : "${""}",
-            style: Theme.of(context).textTheme.headline,
+            number > 0 ? "$number" : "${""}",
+            style: isBold
+                ? TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold)
+                : TextStyle(fontSize: 32.0, fontWeight: FontWeight.normal),
           ),
         ),
       ),
       onTap: () {
-        _onSquareTapped(index);
+        onSquareTapped(index);
       },
     );
   }

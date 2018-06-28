@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'grid.dart';
 import 'selection_row.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'puzzle.dart';
+import 'puzzle_api.dart';
 
-void main() => runApp(new MyApp());
+void main() {
+  runApp(new MyApp());
+}
 
 class AppModel extends Model {
   int _selectedNumber = 0;
@@ -23,9 +27,16 @@ class AppModel extends Model {
     _numbers[index] = number;
     notifyListeners();
   }
+
+  void setPuzzle(puzzle) {
+    _numbers = puzzle.board;
+    notifyListeners();
+  }
 }
 
 class MyApp extends StatelessWidget {
+  final AppModel appModel = AppModel();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -35,7 +46,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: new ScopedModel<AppModel>(
-        model: AppModel(),
+        model: appModel,
         child: Home(),
       ),
     );
@@ -63,6 +74,7 @@ class _HomeState extends State<Home> {
           ScopedModelDescendant<AppModel>(
             builder: (context, child, model) => Grid(
                   numbers: model.numbers,
+                  selectedNumber: model.selectedNumber,
                   onSquareTapped: (index) {
                     if (model.numbers[index] == model.selectedNumber) {
                       model.setGridNumber(index, 0);
@@ -77,6 +89,16 @@ class _HomeState extends State<Home> {
                   selectedNumber: model.selectedNumber,
                   onSquareTapped: (index) {
                     model.setSelectedNumber(index + 1);
+                  },
+                ),
+          ),
+          ScopedModelDescendant<AppModel>(
+            builder: (context, child, model) => RaisedButton(
+                  child: Text("Generate Easy Puzzle"),
+                  onPressed: () {
+                    PuzzleApi.fetchPuzzle().then((puzzle) {
+                      model.setPuzzle(puzzle);
+                    });
                   },
                 ),
           ),

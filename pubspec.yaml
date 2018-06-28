@@ -12,6 +12,9 @@ dependencies:
   # To enable communication between the selection bar and the grid
   scoped_model: "^0.2.0"
 
+  # To fetch puzzles from the sugoku api
+  http: "^0.11.3+16"
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

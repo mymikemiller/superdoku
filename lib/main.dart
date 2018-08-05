@@ -18,6 +18,9 @@ class AppModel extends Model {
   });
   List<int> get numbers => _numbers;
 
+  List<int> _givenNumbers = List.generate(80, (index) => 0);
+  List<int> get givenNumbers => _givenNumbers;
+
   void setSelectedNumber(int number) {
     _selectedNumber = number;
     notifyListeners();
@@ -29,7 +32,8 @@ class AppModel extends Model {
   }
 
   void setPuzzle(puzzle) {
-    _numbers = puzzle.board;
+    _numbers = List.from(puzzle.board);
+    _givenNumbers = List.from(puzzle.board);
     notifyListeners();
   }
 }
@@ -37,7 +41,6 @@ class AppModel extends Model {
 class MyApp extends StatelessWidget {
   final AppModel appModel = AppModel();
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -76,10 +79,13 @@ class _HomeState extends State<Home> {
                   numbers: model.numbers,
                   selectedNumber: model.selectedNumber,
                   onSquareTapped: (index) {
-                    if (model.numbers[index] == model.selectedNumber) {
-                      model.setGridNumber(index, 0);
-                    } else {
-                      model.setGridNumber(index, model.selectedNumber);
+                    // Only allow changing the number if it's not one of the given numbers from the puzzle
+                    if (model.givenNumbers[index] == 0) {
+                      if (model.numbers[index] == model.selectedNumber) {
+                        model.setGridNumber(index, 0);
+                      } else {
+                        model.setGridNumber(index, model.selectedNumber);
+                      }
                     }
                   },
                 ),

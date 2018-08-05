@@ -4,7 +4,7 @@ class Puzzle {
   Puzzle({this.board});
 
   factory Puzzle.fromJson(Map<String, dynamic> json) {
-    // json['board'] is an array of arrays. Translate into a linear list of 81 numbers.
+    // json['board'] is a list of lists. Translate into a linear list of 81 numbers.
     List<int> board = [];
     var jsonBoard = json['board'];
     jsonBoard.forEach((row) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:superdoku/square_painter.dart';
 
 typedef void SquareTappedCallback(int index);
 
@@ -27,17 +28,18 @@ class Square extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Container(
-        decoration: BoxDecoration(
-          // To figure out the background color, add the block x index (1-3)
-          // to the block y index (also 1-3), then % 2 to color every other block
-          color: ((_getX() / 3).toInt() + (_getY() / 3).toInt()) % 2 == 0
-              ? Colors.grey.withAlpha(90)
-              : Colors.grey.withAlpha(20),
-          border: isSelected
-              ? Border.all(color: Colors.blueAccent, width: 2.0)
-              : Border.all(color: Colors.black, width: 0.5),
-        ),
+      child: CustomPaint(
+        // decoration: BoxDecoration(
+        //   // To figure out the background color, add the block x index (1-3)
+        //   // to the block y index (also 1-3), then % 2 to color every other block
+        //   color: ((_getX() / 3).toInt() + (_getY() / 3).toInt()) % 2 == 0
+        //       ? Colors.grey.withAlpha(90)
+        //       : Colors.grey.withAlpha(20),
+        //   border: isSelected
+        //       ? Border.all(color: Colors.blueAccent, width: 2.0)
+        //       : Border.all(color: Colors.black, width: 0.5),
+        // ),
+        painter: new SquarePainter(),
         child: Center(
           child: Text(
             number > 0 ? "$number" : "${""}",

@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'square.dart';
+import 'dart:ui' as ui;
 
 class Grid extends StatelessWidget {
+  final ui.Image tiles;
   final List<int> numbers;
   final int selectedNumber;
   final SquareTappedCallback onSquareTapped;
 
-  Grid({this.numbers, this.selectedNumber, this.onSquareTapped});
+  Grid({this.tiles, this.numbers, this.selectedNumber, this.onSquareTapped});
 
   List<Widget> _buildSquares() {
     List<Square> squares = [];
     for (int i = 0; i < 81; i++) {
       squares.add(Square(
+          tiles: tiles,
           index: i,
           number: numbers[i],
           isSelected: false,

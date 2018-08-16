@@ -6,6 +6,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:superdoku/grid.dart';
 import 'package:superdoku/puzzle_api.dart';
 import 'package:superdoku/selection_row.dart';
+import 'dart:ui' as ui;
 
 class GameModel extends Model {
   int _selectedNumber = 0;
@@ -38,8 +39,11 @@ class GameModel extends Model {
 
 class Game extends StatefulWidget {
   final GameModel gameModel = GameModel();
+  final ui.Image tiles;
   @override
   _GameState createState() => _GameState();
+
+  Game({this.tiles});
 }
 
 class _GameState extends State<Game> {
@@ -51,6 +55,7 @@ class _GameState extends State<Game> {
         children: <Widget>[
           ScopedModelDescendant<GameModel>(
             builder: (context, child, model) => Grid(
+                  tiles: widget.tiles,
                   numbers: model.numbers,
                   selectedNumber: model.selectedNumber,
                   onSquareTapped: (index) {
@@ -67,6 +72,7 @@ class _GameState extends State<Game> {
           ),
           ScopedModelDescendant<GameModel>(
             builder: (context, child, model) => SelectionRow(
+                  tiles: widget.tiles,
                   selectedNumber: model.selectedNumber,
                   onSquareTapped: (index) {
                     model.setSelectedNumber(index + 1);
